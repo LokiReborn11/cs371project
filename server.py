@@ -1,7 +1,7 @@
 import socket
 
 def server_program():
-  host = socket.gethostname()
+  host = socket.gethostname("localhost")
   port = 2048
   server_socket = socket.socket()
   server_socket.bind((host, port))
