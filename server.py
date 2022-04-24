@@ -1,21 +1,17 @@
 import socket
 
 def server_program():
-  host = socket.gethostname("localhost")
-  port = 2048
-  server_socket = socket.socket()
-  server_socket.bind((host, port))
-  server_socket.listen(1)
-  conn, address = server_socket.accept()
-  print("Connection from: " + str(address))
+  server_socket = socket.socket()  
+  server_socket.bind(('', 2048))
+  print("Socket created")
+  server_socket.listen(5)
+
   while True:
-    data = conn.recv(1024).decode()
-    if not data:
-      break
-    print("From connected user: " + str(data))
-    data = input(' -> ')
-    conn.send(data.encode())
-  conn.close()
+    (client_socket, address) = server_socket.accept()
+    print ('Got connection from ', address )
+    client_socket.send('Thank you for connecting'.encode())
+    client_socket.close()
+    break
   
 if __name__ == '__main__':
     server_program()
