@@ -8,9 +8,11 @@ ADDR = (IP,PORT)
 SIZE = 1024
 FORMAT = "utf-8"
 SERVER_PATH = "server"
+downloadCount = 0
 
 def server_program(conn, addr):
   serverConnect = True
+  downloadCount = 0
   print(f"[NEW CONNECTION] {addr} connected.")
   conn.send("OK@Welcome to the server".encode(FORMAT))
   while serverConnect:
@@ -42,7 +44,12 @@ def server_program(conn, addr):
       print("Data packet sent")
       file.close()
       print("File successfully sent")
+      downloadCount += 1
       conn.send("OK@File successfully downloaded!".encode(FORMAT))
+    elif cmd == "DELETE":
+      os.remove(os.path.join("./serverStorage",data[1]))
+      print("File deleted")
+      conn.send("OK@File successfully deleted".encode(FORMAT))
 
   print(f"{addr} disconnected")
   conn.close()
